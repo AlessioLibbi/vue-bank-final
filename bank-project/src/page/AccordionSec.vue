@@ -1,11 +1,13 @@
 <script>
 import AccordioData from "../components/accordion/AccordioData.vue";
 import AccordionGiven from "../components/accordion/AccordionGiven.vue";
+import AccordioCalc from '../components/accordion/fetures/AccordioCalc.vue';
 
 export default {
   components: {
     AccordioData,
     AccordionGiven,
+    AccordioCalc
   },
 };
 </script>
@@ -23,7 +25,7 @@ export default {
           <q-card-section>
             <accordio-data></accordio-data>
             <accordion-given></accordion-given>
-            <div>{COMPONENTE DA INSERIRE TABELLA CALCOLO}</div>
+            <accordio-calc></accordio-calc>
           </q-card-section>
         </q-card>
       </q-expansion-item>

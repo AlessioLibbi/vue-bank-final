@@ -1,9 +1,7 @@
 <script>
-
 import AccordioTable from './fetures/AccordioTable.vue';
-
 export default {
-    component: {
+    components: {
         AccordioTable
     }
 };
@@ -20,9 +18,10 @@ export default {
       >
         <q-card>
           <q-card-section>
-            <accordio-table></accordio-table>
             
+             <accordio-table></accordio-table>
           </q-card-section>
+         
         </q-card>
       </q-expansion-item>
       <q-separator />

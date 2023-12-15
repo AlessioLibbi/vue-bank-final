@@ -33,9 +33,9 @@ export default {
       :vatCode="userFullData.assignorVatCode"
       :dsoSkip="userFullData.dsoSkipReason"
     ></bank-seller>
-    <accordion-sec>
-        
-    </accordion-sec>
+     
+    <accordion-sec  v-for="creditLine in userFullData.creditLines" :key="creditLine"></accordion-sec>
+
   </section>
 </template>
 

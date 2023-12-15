@@ -1,17 +1,17 @@
 <script>
 export default {
-//    computed: {
-//     creditLines(){
-//         return this.$store.state.userFullData.creditLines[0]
-//     }
-//    }
+   computed: {
+    creditLines(){
+        return this.$store.state.userFullData.creditLines[0]
+    }
+    }
 }
 </script>
 
 
 <template>
    <div class="row">
-    <!-- <div class="col">
+    <div class="col">
         <p>ID linea di credito</p>
         <p>{{creditLines.id}}</p>
     </div>
@@ -30,7 +30,7 @@ export default {
     <div class="col">
         <p>Crediti acquistabili</p>
         <p>{{creditLines.partialWithoutRecoursePercentage}}%</p>
-    </div> -->
+    </div> 
    </div>
 </template>
 
