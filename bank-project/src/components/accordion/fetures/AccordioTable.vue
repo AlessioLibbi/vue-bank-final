@@ -1,11 +1,17 @@
 <template>
   <div class="q-pa-md">
-    <q-table :rows="rows" :columns="columns" row-key="name" />
+    <q-table  :rows="rows" :columns="columns" row-key="name" >
+
+      <template v-slot:pagination="pagination"></template>
+    </q-table>
   </div>
 </template>
 <script>
 import { defineComponent } from "vue";
+
+
 export default defineComponent({
+  
   props: ["crediLine"],
   created() {
     this.rows = this.$store.getters.debtorsList;
@@ -17,7 +23,7 @@ export default defineComponent({
           name: "Ragione Sociale",
           label: "Ragione Sociale",
           //   field: (row) => row.fat,
-
+          
           field: function (row) {
             return row.name;
           },
