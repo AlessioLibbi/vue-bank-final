@@ -9,6 +9,7 @@ export default {
     AccordionGiven,
     AccordioCalc
   },
+  props: ['creditLine']
 };
 </script>
 
@@ -23,9 +24,9 @@ export default {
       >
         <q-card>
           <q-card-section>
-            <accordio-data></accordio-data>
-            <accordion-given></accordion-given>
-            <accordio-calc></accordio-calc>
+            <accordio-data :creditLine="creditLine"></accordio-data>
+            <accordion-given :creditLine="creditLine"></accordion-given>
+            <accordio-calc :creditLine="creditLine"></accordio-calc>
           </q-card-section>
         </q-card>
       </q-expansion-item>

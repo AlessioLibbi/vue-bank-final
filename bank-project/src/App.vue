@@ -25,7 +25,7 @@ export default {
 <style lang="scss">
 * {
   margin: 0;
-  padding: 0;
+  padding: 2px;
   box-sizing: border-box;
 }
 .background {

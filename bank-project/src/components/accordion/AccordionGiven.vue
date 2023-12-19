@@ -1,6 +1,7 @@
 <script>
 import AccordioTable from './fetures/AccordioTable.vue';
 export default {
+  props: ['creditLine'],
     components: {
         AccordioTable
     }
@@ -19,7 +20,7 @@ export default {
         <q-card>
           <q-card-section>
             
-             <accordio-table></accordio-table>
+             <accordio-table :creditLine="creditLine"></accordio-table>
           </q-card-section>
          
         </q-card>

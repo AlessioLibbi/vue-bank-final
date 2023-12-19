@@ -8,7 +8,7 @@ export default {
   <div class="header-container">
     <div class="header-content">
       <h5>LOGO</h5>
-      <h5 class="nome">{{ownerName}}</h5>
+      <h5 class="nome">{{this.$store.state.userFullData.ownerName}}</h5>
     </div>
   </div>
 </template>

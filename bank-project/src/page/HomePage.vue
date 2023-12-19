@@ -34,7 +34,7 @@ export default {
       :dsoSkip="userFullData.dsoSkipReason"
     ></bank-seller>
      
-    <accordion-sec  v-for="creditLine in userFullData.creditLines" :key="creditLine"></accordion-sec>
+    <accordion-sec  :creditLine="creditLine" v-for="creditLine in userFullData.creditLines" :key="creditLine.id"></accordion-sec>
 
   </section>
 </template>

@@ -1,35 +1,33 @@
 <script>
 export default {
-   computed: {
-    creditLines(){
-        return this.$store.state.userFullData.creditLines[0]
-    }
-    }
+    props: ['creditLine'],
+
 }
 </script>
 
 
 <template>
    <div class="row">
+    
     <div class="col">
         <p>ID linea di credito</p>
-        <p>{{creditLines.id}}</p>
+        <p>{{creditLine.id}}</p>
     </div>
     <div class="col">
         <p>Forma Tecnica</p>
-        <p>{{creditLines.type}}</p>
+        <p>{{creditLine.type}}</p>
     </div>
     <div class="col">
         <p>Tipo debitore</p>
-        <p>{{creditLines.debtorType}}</p>
+        <p>{{creditLine.debtorType}}</p>
     </div>
     <div class="col">
         <p>Importo</p>
-        <p>{{creditLines.amountSum}}€</p>
+        <p>{{creditLine.amountSum}}€</p>
     </div>
     <div class="col">
         <p>Crediti acquistabili</p>
-        <p>{{creditLines.partialWithoutRecoursePercentage}}%</p>
+        <p>{{creditLine.partialWithoutRecoursePercentage}}%</p>
     </div> 
    </div>
 </template>
