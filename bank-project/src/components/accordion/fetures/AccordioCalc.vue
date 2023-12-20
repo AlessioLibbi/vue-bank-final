@@ -2,6 +2,7 @@
 export default {
   data() {
     return {
+      dense: true,
       gracePeriod: null,
       value: true,
       creditLineCopy:  this.creditLine
@@ -55,6 +56,7 @@ export default {
           type="number"
           rounded
           outlined
+          :dense="dense"
           v-model="gracePeriod"
         />
       </div>
@@ -129,12 +131,14 @@ export default {
             type="number"
             rounded
             outlined
+            :dense="dense"
             v-model="this.creditLineCopy.commissionPercentage"
           />
           <q-input
             type="number"
             rounded
             outlined
+            :dense="dense"
             v-model="managementFeePercentage"
           />
         </div>
@@ -157,6 +161,7 @@ export default {
           type="number"
           rounded
           outlined
+          :dense="dense"
           v-model="this.creditLineCopy.debtorRecoverCostUnitPrice"
         />
         <p>{{ this.creditLineCopy.debtorRecoverCost }}€</p>
@@ -203,6 +208,7 @@ export default {
           type="number"
           rounded
           outlined
+          :dense="dense"
           v-model="this.creditLineCopy.debtorAssessmentCostUnitPrice"
         />
         <p>{{ this.creditLineCopy.debtorAssessmentCost }}€</p>
@@ -219,6 +225,7 @@ export default {
           type="number"
           rounded
           outlined
+          :dense="dense"
           v-model="this.creditLineCopy.cofaceCostPercentage"
         />
         <p>{{ this.creditLineCopy.cofaceCost }}€</p>
