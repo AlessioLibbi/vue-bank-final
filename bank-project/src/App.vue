@@ -27,6 +27,10 @@ export default {
   margin: 0;
   padding: 2px;
   box-sizing: border-box;
+  
+}
+body {
+  background-color: #f4F4F4 ;
 }
 .background {
   background: #f4F4F4;
@@ -35,6 +39,7 @@ export default {
   .pages {
   width: 80%;
   margin: 0 auto;
+  margin-top: 90px;
   background: #ffffff;
   .content-container {
     width: 80%;

@@ -2,14 +2,25 @@
   <div class="q-pa-md">
     <q-table
       :rows="rows"
-      :pagination="initialPagination"
       :columns="columns"
       row-key="name"
     >
       <template  v-slot:pagination="scope">
-       
 
-              <q-btn
+
+            
+        <div class="flex">
+          <div class="flex">
+                <p>
+              <span>{{ rows.length }}</span
+              >Risultati.
+            </p>
+            <p>
+              Mostra:<span>{{ scope.pagination.rowsPerPage }}</span> risultati per pagina
+            </p>
+          </div>
+          <div class="flex">
+                <q-btn
                 icon="chevron_left"
                 color="grey-8"
                 round
@@ -30,24 +41,10 @@
                 @click="scope.nextPage"
               >
               </q-btn>
-        <div class="flex">
-          <div class="flex">
-            <p>
-              <span>{{ rows.length }}</span
-              >Risultati.
-            </p>
-            <p>
-              Mostra:<span>{{ scope.pagination.rowsPerPage }}</span> risultati per pagina
-            </p>
-          </div>
-          <div class="flex">
-            {{ scope }}
           </div>
         </div>
       </template>
-      <template #bottom-right>
-        <p>ciao</p>
-      </template>
+     
     </q-table>
   </div>
 </template>
@@ -55,9 +52,10 @@
 import { defineComponent } from "vue";
 
 export default defineComponent({
-  props: ["crediLine"],
+  props: ["creditLine"],
   created() {
-    this.rows = this.$store.getters.debtorsList;
+    console.log(this.rows);
+    this.rows = this.creditLine.debtors
   },
 
   setup() {
