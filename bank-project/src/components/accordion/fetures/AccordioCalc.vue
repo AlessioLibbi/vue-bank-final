@@ -76,7 +76,10 @@ export default {
           Accept: "application/json",
         },
         body: this.changingData,
-      })
+      }).then((response) => response.json())
+        .then((response) => {JSON.stringify(response)
+          this.creditLineCopy = response
+        })
       console.log(this.changingData);
     },
   },
