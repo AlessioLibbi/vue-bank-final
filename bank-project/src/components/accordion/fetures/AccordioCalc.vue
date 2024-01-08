@@ -5,16 +5,27 @@ export default {
       dense: true,
       gracePeriod: null,
       value: true,
-      creditLineCopy:  this.creditLine
+      creditLineCopy: this.creditLine,
+      changingData: {
+        gracePeriod: "",
+        commissionPercentage: "",
+        managementFeePercentage: "",
+        interestPercentage: "",
+        hasCofaceBill: "",
+        debtorRecoverCostUnitPrice: "",
+        debtorAssessmentCostUnitPrice: "",
+        saleCostWithoutRecoursePercentage: "",
+        saleCostWithRecoursePercentage: "",
+        cofaceCostPercentage: "",
+      },
     };
   },
-  props:["creditLine"],
+  props: ["creditLine"],
   computed: {
     userFullData() {
       return this.$store.state.userFullData;
     },
 
-    
     calcDsoTotal() {
       return (
         parseInt(this.gracePeriod) + parseInt(this.creditLineCopy.estimatedDso)
@@ -27,6 +38,46 @@ export default {
       set(value) {
         this.creditLineCopy.managementFeePercentage = value + "%";
       },
+    },
+  },
+  methods: {
+    saveData() {
+      this.changingData.creditLineId = this.creditLineCopy.id;
+      this.changingData.gracePeriod = this.creditLineCopy.gracePeriod;
+      this.changingData.commissionPercentage = parseInt(
+        this.creditLineCopy.commissionPercentage
+      );
+      this.changingData.managementFeePercentage = parseInt(
+        this.creditLineCopy.managementFeePercentage
+      );
+      this.changingData.interestPercentage = parseInt(
+        this.creditLineCopy.interestPercentage
+      );
+      this.changingData.hasCofaceBill = this.creditLineCopy.hasCofaceBill;
+      this.changingData.debtorRecoverCostUnitPrice = parseInt(
+        this.creditLineCopy.debtorRecoverCostUnitPrice
+      );
+      this.changingData.debtorAssessmentCostUnitPrice = parseInt(
+        this.creditLineCopy.debtorAssessmentCostUnitPrice
+      );
+      this.changingData.saleCostWithoutRecoursePercentage = parseInt(
+        this.creditLineCopy.saleCostWithoutRecoursePercentage
+      );
+      this.changingData.saleCostWithRecoursePercentage = parseInt(
+        this.creditLineCopy.saleCostWithRecoursePercentage
+      );
+      this.changingData.cofaceCostPercentage = parseInt(
+        this.creditLineCopy.cofaceCostPercentage
+      );
+       const url = `https://dev-api-pricing.bancaprogetto.it/pricing-first-step/6376b2f2-3aaf-472a-83f2-8dbc2e4b2215`;
+       fetch(url, {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+        },
+        body: this.changingData,
+      })
+      console.log(this.changingData);
     },
   },
 };
@@ -64,7 +115,9 @@ export default {
         <p>DSO totale</p>
         <p>
           {{
-            this.gracePeriod ? this.calcDsoTotal : this.creditLineCopy.estimatedDso
+            this.gracePeriod
+              ? this.calcDsoTotal
+              : this.creditLineCopy.estimatedDso
           }}
         </p>
       </div>
@@ -187,7 +240,8 @@ export default {
         </div>
         <div class="abled">
           <p class="title">Polizza Coface</p>
-          <span>No</span> <q-toggle v-model="this.creditLineCopy.hasCofaceBill" /><span
+          <span>No</span>
+          <q-toggle v-model="this.creditLineCopy.hasCofaceBill" /><span
             >Si</span
           >
         </div>
@@ -244,11 +298,11 @@ export default {
           label="ripristina"
         />
         <q-btn
+          @click="saveData"
           unelevated
           rounded
           color="green"
           style="text-transform: none , border-radius: 15px"
-          disable
           label="Calcola"
         />
       </div>
@@ -279,6 +333,6 @@ export default {
   justify-content: flex-end;
 }
 .button-group {
-    text-align: center;
+  text-align: center;
 }
 </style>
