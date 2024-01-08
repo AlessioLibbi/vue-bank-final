@@ -71,9 +71,11 @@ export default {
       this.changingData.cofaceCostPercentage = parseInt(
         this.creditLineCopy.cofaceCostPercentage
       );
-      const url = `https://dev-api-pricing.bancaprogetto.it/pricing-first-step/` ;
+      
+      const url = 'https://dev-api-pricing.bancaprogetto.it/pricing-first-step/';
       fetch(url, {
         method: "POST",
+        
         headers: {
           Accept: "application/json",
         },
@@ -81,9 +83,10 @@ export default {
       })
         .then((response) => response.json())
         .then((response) => {
+          console.log(response);
           this.creditLineCopy = response;
         });
-      console.log(this.changingData);
+      console.log(JSON.stringify(this.changingData));
     },
   },
 };
