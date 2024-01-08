@@ -7,6 +7,7 @@ export default {
       value: true,
       creditLineCopy: this.creditLine,
       changingData: {
+        sessionId: "",
         gracePeriod: "",
         commissionPercentage: "",
         managementFeePercentage: "",
@@ -42,6 +43,7 @@ export default {
   },
   methods: {
     saveData() {
+      this.changingData.sessionId = this.userFullData.id;
       this.changingData.creditLineId = this.creditLineCopy.id;
       this.changingData.gracePeriod = this.creditLineCopy.gracePeriod;
       this.changingData.commissionPercentage = parseInt(
@@ -69,17 +71,18 @@ export default {
       this.changingData.cofaceCostPercentage = parseInt(
         this.creditLineCopy.cofaceCostPercentage
       );
-       const url = `https://dev-api-pricing.bancaprogetto.it/pricing-first-step/6376b2f2-3aaf-472a-83f2-8dbc2e4b2215`;
-       fetch(url, {
+      const url = `https://dev-api-pricing.bancaprogetto.it/pricing-first-step/` ;
+      fetch(url, {
         method: "POST",
         headers: {
           Accept: "application/json",
         },
-        body: this.changingData,
-      }).then((response) => response.json())
-        .then((response) => {JSON.stringify(response)
-          this.creditLineCopy = response
-        })
+        body: JSON.stringify(this.changingData),
+      })
+        .then((response) => response.json())
+        .then((response) => {
+          this.creditLineCopy = response;
+        });
       console.log(this.changingData);
     },
   },
