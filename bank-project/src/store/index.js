@@ -4,58 +4,42 @@ const store = createStore({
   modules: {},
   state() {
     return {
-      userFullData: {
+      userFullData: {},
+      toCalcData: {
 
       },
-      toCalcData: {
-      //   {
-      //     sessionId: string; // Identificativo della sessione
-      //     creditLineId: string // Identificativo della linea di credito
-      //     gracePeriod: number // Grace Period DSO
-      //     commissionPercentage: number // Commissione
-      //     managementFeePercentage?: number | null // Commissioni di gestione
-      //     interestPercentage?: number | null // Interessi
-      //     hasCofaceBill?: boolean | null// Indica se è presente una polizza Coface
-      //     debtorRecoverCostUnitPrice: number // Prezzo unitario recupero spese valutazione debitori
-      //     debtorAssessmentCostUnitPrice: number // Costo unitario valutazione debitori
-      //     saleCostWithoutRecoursePercentage?: number | null // Percentuale costo rete commerciale
-      //     saleCostWithRecoursePercentage?: number | null // Percentuale costo rete commerciale
-      //     cofaceCostPercentage?: number | null // Percentuale costo assicurazione coface
-      // }
-      }
-
-
     };
   },
   mutations: {
     setUserData(state, getUserData) {
       state.userFullData = getUserData;
+     
     },
     updateData(state, newData) {
-      state.toCalcData = newData
-    }
+      state.toCalcData = newData;
+    },
   },
   getters: {
-    creditLines(state){
+    creditLines(state) {
       // DA MODIFICARE FILTRANDO PER ID BABBO DI CEPPA
-      return state.userFullData.creditLines
+      return state.userFullData.creditLines;
     },
-
   },
   actions: {
     callUserData(context) {
       const url = `https://dev-api-pricing.bancaprogetto.it/sessions/6376b2f2-3aaf-472a-83f2-8dbc2e4b2215`;
-       fetch(url, {
+      fetch(url, {
         method: "GET",
         headers: {
           Accept: "application/json",
         },
       })
         .then((response) => response.json())
-        .then((response) => {JSON.stringify(response)
+        .then((response) => {
+          JSON.stringify(response);
           context.commit("setUserData", response);
-        })
-
+         
+        });
     },
   },
 });

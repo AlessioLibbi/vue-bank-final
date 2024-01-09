@@ -21,12 +21,16 @@ export default {
         saleCostWithRecoursePercentage: "",
         cofaceCostPercentage: "",
       },
+      finalCalc : {
+
+      }
     };
   },
   props: ["creditLine"],
   computed: {
     userFullData() {
       return this.$store.state.userFullData;
+      
     },
 
     calcDsoTotal() {
@@ -175,11 +179,12 @@ export default {
           Accept: "application/json, text/plain, */*",
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(this.changingData),
+        body: JSON.stringify(this.$store.state.toCalcData),
         
       }).then((response) => response.json())
         .then((response) => {
           console.log(response);
+          this.finalCalc = response
         });
     },
     reset() {
@@ -290,6 +295,7 @@ export default {
         </div>
         <div class="calc-inp-text">
           <q-input
+        
             debounce="500"
             class="my-input"
             type="number"
@@ -434,47 +440,47 @@ export default {
         />
       </div>
     </div>
-    <section>
+    <section v-if="this.finalCalc.corCofNetIncomeAmount">
       <h4>Calcolo</h4>
       <div class="line"></div>
       <div class="flex">
         <p>Valore incasso netto(pre CoR/CoF)</p>
-        <p>{{ this.creditLineCopy.saleCost }}€</p>
+        <p>{{ this.finalCalc.corCofNetIncomeAmount }}€</p>
       </div>
       <div class="line"></div>
       <div class="flex">
         <p>Rendimento finanziario annuo netto(pre CoR/CoF)</p>
-        <p>{{ this.creditLineCopy.saleCost }}€</p>
+        <p>{{ this.finalCalc.corCofNetIncomePercentage }}€</p>
       </div>
       <div class="line"></div>
       <div class="flex">
         <p>Valore incasso netto finale (netto CoR/CoF)</p>
-        <p>{{ this.creditLineCopy.saleCost }}€</p>
+        <p>{{ this.finalCalc.incomeAmount }}€</p>
       </div>
       <div class="line"></div>
       <div class="flex">
         <p>Rendimento netto finale (netto CoR/CoF)</p>
-        <p>{{ this.creditLineCopy.saleCost }}€</p>
+        <p>{{ this.finalCalc.incomePercentage }}€</p>
       </div>
       <div class="line"></div>
       <div class="flex">
         <p>Valore incasso netto finale (netto costo industriale)</p>
-        <p>{{ this.creditLineCopy.saleCost }}€</p>
+        <p>{{ this.finalCalc.industrialNetIncomeAmount }}€</p>
       </div>
       <div class="line"></div>
       <div class="flex">
         <p>Rendimento netto finale (netto costo industriale)</p>
-        <p>{{ this.creditLineCopy.saleCost }}€</p>
+        <p>{{ this.finalCalc.industrialNetIncomePercentage }}€</p>
       </div>
       <div class="line"></div>
       <div class="flex">
         <p>Valore incasso netto finale (netto req. capitale)</p>
-        <p>{{ this.creditLineCopy.saleCost }}€</p>
+        <p>{{ this.finalCalc.netIncomeAmount }}€</p>
       </div>
       <div class="line"></div>
       <div class="flex">
         <p>ANI (Average Net Income)</p>
-        <p>{{ this.creditLineCopy.saleCost }}€</p>
+        <p>{{ this.finalCalc.netIncomePercentage }}€</p>
       </div>
     </section>
   </section>
