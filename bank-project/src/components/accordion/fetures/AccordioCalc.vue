@@ -34,10 +34,15 @@ export default {
     },
     managementFeePercentage: {
       get() {
-        return 0.15;
+        if (this.creditLineCopy.managementFeePercentage > 1) {
+          return 0;
+        } else {
+          return this.creditLineCopy.managementFeePercentage;
+        }
       },
       set(value) {
-        this.creditLineCopy.managementFeePercentage = value + "%";
+        console.log(this.creditLineCopy.managementFeePercentage);
+        return (this.creditLineCopy.managementFeePercentage = value + "%");
       },
     },
   },
@@ -71,22 +76,93 @@ export default {
       this.changingData.cofaceCostPercentage = parseInt(
         this.creditLineCopy.cofaceCostPercentage
       );
-      
-      const url = 'https://dev-api-pricing.bancaprogetto.it/pricing-first-step/';
+
+      const url =
+        "https://dev-api-pricing.bancaprogetto.it/pricing-first-step/";
       fetch(url, {
         method: "POST",
-        
+
         headers: {
-          Accept: "application/json",
+          Accept: "application/json, text/plain, */*",
+          "Content-Type": "application/json",
         },
         body: JSON.stringify(this.changingData),
       })
         .then((response) => response.json())
         .then((response) => {
           console.log(response);
-          this.creditLineCopy = response;
+          this.creditLineCopy.incomeInterestAmount =
+            response.incomeInterestAmount;
+          this.changingData.incomeInterestAmount =
+            response.incomeInterestAmount;
+
+          this.creditLineCopy.commissionAmount = response.commissionAmount;
+          this.changingData.commissionAmount = response.commissionAmount;
+
+          this.creditLineCopy.interestAmount = response.interestAmount;
+          this.changingData.interestAmount = response.interestAmount;
+
+          this.creditLineCopy.targetPricePercentage =
+            response.targetPricePercentage;
+          this.changingData.targetPricePercentage =
+            response.targetPricePercentage;
+
+          this.creditLineCopy.purchaseReceivableAmount =
+            response.purchaseReceivableAmount;
+          this.changingData.purchaseReceivableAmount =
+            response.purchaseReceivableAmount;
+
+          this.creditLineCopy.bankFee = response.bankFee;
+          this.changingData.bankFee = response.bankFee;
+
+          this.creditLineCopy.grossRevenueAmount = response.grossRevenueAmount;
+          this.changingData.grossRevenueAmount = response.grossRevenueAmount;
+
+          this.creditLineCopy.grossAnnualFinancialReturn =
+            response.grossAnnualFinancialReturn;
+          this.changingData.grossAnnualFinancialReturn =
+            response.grossAnnualFinancialReturn;
+
+          this.creditLineCopy.isGrossAnnualFinancialReturnValid =
+            response.isGrossAnnualFinancialReturnValid;
+          this.changingData.isGrossAnnualFinancialReturnValid =
+            response.isGrossAnnualFinancialReturnValid;
+
+          this.creditLineCopy.saleCostWithRecourseAmount =
+            response.saleCostWithRecourseAmount;
+          this.changingData.saleCostWithRecourseAmount =
+            response.saleCostWithRecourseAmount;
+
+          this.creditLineCopy.saleCostWithoutRecourseAmount =
+            response.saleCostWithoutRecourseAmount;
+          this.changingData.saleCostWithoutRecourseAmount =
+            response.saleCostWithoutRecourseAmount;
+
+          this.creditLineCopy.saleCost = response.saleCost;
+          this.changingData.saleCost = response.saleCost;
+
+          this.creditLineCopy.cofaceCost = response.cofaceCost;
+          this.changingData.cofaceCost = response.cofaceCost;
+
+          this.creditLineCopy.cofPercentage = response.cofPercentage;
+          this.changingData.cofPercentage = response.cofPercentage;
+
+          this.creditLineCopy.industrialCostPercentage =
+            response.industrialCostPercentage;
+          this.changingData.industrialCostPercentage =
+            response.industrialCostPercentage;
+
+          this.creditLineCopy.capitalCostPercentage =
+            response.capitalCostPercentage;
+          this.changingData.capitalCostPercentage =
+            response.capitalCostPercentage;
+
+            this.$store.commit("updateData", this.changingData)
         });
       console.log(JSON.stringify(this.changingData));
+    },
+    reset() {
+      window.location.reload();
     },
   },
 };
@@ -118,6 +194,7 @@ export default {
           outlined
           :dense="dense"
           v-model="gracePeriod"
+          @change="saveData"
         />
       </div>
       <div class="col">
@@ -195,6 +272,7 @@ export default {
             outlined
             :dense="dense"
             v-model="this.creditLineCopy.commissionPercentage"
+            @change="saveData"
           />
           <q-input
             type="number"
@@ -202,6 +280,7 @@ export default {
             outlined
             :dense="dense"
             v-model="managementFeePercentage"
+            @change="saveData"
           />
         </div>
       </div>
@@ -225,6 +304,7 @@ export default {
           outlined
           :dense="dense"
           v-model="this.creditLineCopy.debtorRecoverCostUnitPrice"
+          @change="saveData"
         />
         <p>{{ this.creditLineCopy.debtorRecoverCost }}€</p>
       </div>
@@ -273,6 +353,7 @@ export default {
           outlined
           :dense="dense"
           v-model="this.creditLineCopy.debtorAssessmentCostUnitPrice"
+          @change="saveData"
         />
         <p>{{ this.creditLineCopy.debtorAssessmentCost }}€</p>
       </div>
@@ -290,6 +371,7 @@ export default {
           outlined
           :dense="dense"
           v-model="this.creditLineCopy.cofaceCostPercentage"
+          @change="saveData"
         />
         <p>{{ this.creditLineCopy.cofaceCost }}€</p>
       </div>
@@ -300,6 +382,7 @@ export default {
       </div>
       <div class="button-group">
         <q-btn
+          @click="reset"
           unelevated
           rounded
           color="red"
@@ -307,7 +390,6 @@ export default {
           label="ripristina"
         />
         <q-btn
-          @click="saveData"
           unelevated
           rounded
           color="green"

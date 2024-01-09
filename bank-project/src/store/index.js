@@ -31,6 +31,9 @@ const store = createStore({
     setUserData(state, getUserData) {
       state.userFullData = getUserData;
     },
+    updateData(state, newData) {
+      state.toCalcData = newData
+    }
   },
   getters: {
     creditLines(state){
