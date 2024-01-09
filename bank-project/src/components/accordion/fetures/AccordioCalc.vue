@@ -30,20 +30,52 @@ export default {
 
     calcDsoTotal() {
       return (
-        parseInt(this.gracePeriod) + parseInt(this.creditLineCopy.estimatedDso)
+        parseInt(this.creditLineCopy.gracePeriod) +
+        parseInt(this.creditLineCopy.estimatedDso)
       );
     },
     managementFeePercentage: {
       get() {
-        return 0.15;
+        return this.creditLineCopy.managementFeePercentage;
       },
       set(value) {
-        console.log(this.creditLineCopy.managementFeePercentage);
         return (this.creditLineCopy.managementFeePercentage = value + "%");
       },
     },
   },
   methods: {
+    changeToggleVal() {
+      if (this.creditLineCopy.hasCofaceBill === null) {
+        this.creditLineCopy.hasCofaceBill = true;
+      } else {
+        this.creditLineCopy.hasCofaceBill = !this.creditLineCopy.hasCofaceBill;
+      }
+    },
+    lastCalc() {
+      const url = "https://dev-api-pricing.bancaprogetto.it/pricing-last-step/";
+      fetch(url, {
+        method: "POST",
+
+        headers: {
+          Accept: "application/json, text/plain, */*",
+          "Content-Type": "application/json",
+        },
+        body: {
+          sessionId: "6376b2f2-3aaf-472a-83f2-8dbc2e4b2215",
+          creditLineId: "pro-soluto-parziale",
+          gracePeriod: 0,
+          commissionPercentage: 1,
+          managementFeePercentage: 0.15,
+          interestPercentage: null,
+          hasCofaceBill: true,
+          debtorRecoverCostUnitPrice: 70,
+          debtorAssessmentCostUnitPrice: 50,
+          saleCostWithoutRecoursePercentage: 0.2,
+          saleCostWithRecoursePercentage: 30,
+          cofaceCostPercentage: 0.1,
+        },
+      });
+    },
     saveData() {
       this.changingData.sessionId = this.userFullData.id;
       this.changingData.creditLineId = this.creditLineCopy.id;
@@ -192,7 +224,7 @@ export default {
           rounded
           outlined
           :dense="dense"
-          v-model="gracePeriod"
+          v-model="this.creditLineCopy.gracePeriod"
           @change="saveData"
         />
       </div>
@@ -200,7 +232,7 @@ export default {
         <p>DSO totale</p>
         <p>
           {{
-            this.gracePeriod
+            this.creditLineCopy.gracePeriod
               ? this.calcDsoTotal
               : this.creditLineCopy.estimatedDso
           }}
@@ -282,7 +314,7 @@ export default {
             rounded
             outlined
             :dense="dense"
-            v-model="managementFeePercentage"
+            v-model="this.creditLineCopy.managementFeePercentage"
             @change="saveData"
           />
         </div>
@@ -335,9 +367,10 @@ export default {
         <div class="abled">
           <p class="title">Polizza Coface</p>
           <span>No</span>
-          <q-toggle v-model="this.creditLineCopy.hasCofaceBill" /><span
-            >Si</span
-          >
+          <q-toggle
+            @change="changeToggleVal"
+            v-model="this.creditLineCopy.hasCofaceBill"
+          /><span>Si</span>
         </div>
       </div>
     </div>
@@ -399,6 +432,7 @@ export default {
           label="ripristina"
         />
         <q-btn
+          @click="lastCalc"
           debounce="500"
           unelevated
           rounded
@@ -408,6 +442,49 @@ export default {
         />
       </div>
     </div>
+    <section>
+      <h4>Calcolo</h4>
+      <div class="line"></div>
+      <div class="flex">
+        <p>Valore incasso netto(pre CoR/CoF)</p>
+        <p>{{ this.creditLineCopy.saleCost }}€</p>
+      </div>
+      <div class="line"></div>
+      <div class="flex">
+        <p>Rendimento finanziario annuo netto(pre CoR/CoF)</p>
+        <p>{{ this.creditLineCopy.saleCost }}€</p>
+      </div>
+      <div class="line"></div>
+      <div class="flex">
+        <p>Valore incasso netto finale (netto CoR/CoF)</p>
+        <p>{{ this.creditLineCopy.saleCost }}€</p>
+      </div>
+      <div class="line"></div>
+      <div class="flex">
+        <p>Rendimento netto finale (netto CoR/CoF)</p>
+        <p>{{ this.creditLineCopy.saleCost }}€</p>
+      </div>
+      <div class="line"></div>
+      <div class="flex">
+        <p>Valore incasso netto finale (netto costo industriale)</p>
+        <p>{{ this.creditLineCopy.saleCost }}€</p>
+      </div>
+      <div class="line"></div>
+      <div class="flex">
+        <p>Rendimento netto finale (netto costo industriale)</p>
+        <p>{{ this.creditLineCopy.saleCost }}€</p>
+      </div>
+      <div class="line"></div>
+      <div class="flex">
+        <p>Valore incasso netto finale (netto req. capitale)</p>
+        <p>{{ this.creditLineCopy.saleCost }}€</p>
+      </div>
+      <div class="line"></div>
+      <div class="flex">
+        <p>ANI (Average Net Income)</p>
+        <p>{{ this.creditLineCopy.saleCost }}€</p>
+      </div>
+    </section>
   </section>
 </template>
 
