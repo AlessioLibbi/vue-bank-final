@@ -10,6 +10,7 @@ export default {
       changingData: {
         sessionId: "",
         gracePeriod: "",
+        creditLineId: "",
         commissionPercentage: "",
         managementFeePercentage: "",
         interestPercentage: "",
@@ -51,31 +52,7 @@ export default {
         this.creditLineCopy.hasCofaceBill = !this.creditLineCopy.hasCofaceBill;
       }
     },
-    lastCalc() {
-      const url = "https://dev-api-pricing.bancaprogetto.it/pricing-last-step/";
-      fetch(url, {
-        method: "POST",
-
-        headers: {
-          Accept: "application/json, text/plain, */*",
-          "Content-Type": "application/json",
-        },
-        body: {
-          sessionId: "6376b2f2-3aaf-472a-83f2-8dbc2e4b2215",
-          creditLineId: "pro-soluto-parziale",
-          gracePeriod: 0,
-          commissionPercentage: 1,
-          managementFeePercentage: 0.15,
-          interestPercentage: null,
-          hasCofaceBill: true,
-          debtorRecoverCostUnitPrice: 70,
-          debtorAssessmentCostUnitPrice: 50,
-          saleCostWithoutRecoursePercentage: 0.2,
-          saleCostWithRecoursePercentage: 30,
-          cofaceCostPercentage: 0.1,
-        },
-      });
-    },
+   
     saveData() {
       this.changingData.sessionId = this.userFullData.id;
       this.changingData.creditLineId = this.creditLineCopy.id;
@@ -124,7 +101,6 @@ export default {
             response.incomeInterestAmount;
           this.changingData.incomeInterestAmount =
             response.incomeInterestAmount;
-
           this.creditLineCopy.commissionAmount = response.commissionAmount;
           this.changingData.commissionAmount = response.commissionAmount;
 
@@ -189,6 +165,22 @@ export default {
           this.$store.commit("updateData", this.changingData);
         });
       console.log(JSON.stringify(this.changingData));
+    },
+     async lastCalc() {
+      const url = "https://dev-api-pricing.bancaprogetto.it/pricing-last-step/";
+       await fetch(url, {
+        method: "POST",
+
+        headers: {
+          Accept: "application/json, text/plain, */*",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(this.changingData),
+        
+      }).then((response) => response.json())
+        .then((response) => {
+          console.log(response);
+        });
     },
     reset() {
       window.location.reload();
