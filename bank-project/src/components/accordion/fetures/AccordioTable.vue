@@ -1,6 +1,8 @@
 <template>
   <div class="q-pa-md">
     <q-table
+     
+     rows-per-page-options=""
       :rows="rows"
       :columns="columns"
       row-key="name"
@@ -16,7 +18,10 @@
               >Risultati.
             </p>
             <p>
-              Mostra:<span>{{ scope.pagination.rowsPerPage }}</span> risultati per pagina
+              Mostra:<select v-model="scope.pagination.rowsPerPage">
+                <option value="5">5</option>
+                <option value="10">10</option>
+                </select> risultati per pagina
             </p>
           </div>
           <div class="flex">

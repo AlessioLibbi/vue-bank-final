@@ -5,6 +5,7 @@ export default {
       dense: true,
       gracePeriod: null,
       value: true,
+
       creditLineCopy: this.creditLine,
       changingData: {
         sessionId: "",
@@ -34,11 +35,7 @@ export default {
     },
     managementFeePercentage: {
       get() {
-        if (this.creditLineCopy.managementFeePercentage > 1) {
-          return 0;
-        } else {
-          return this.creditLineCopy.managementFeePercentage;
-        }
+        return 0.15;
       },
       set(value) {
         console.log(this.creditLineCopy.managementFeePercentage);
@@ -157,7 +154,7 @@ export default {
           this.changingData.capitalCostPercentage =
             response.capitalCostPercentage;
 
-            this.$store.commit("updateData", this.changingData)
+          this.$store.commit("updateData", this.changingData);
         });
       console.log(JSON.stringify(this.changingData));
     },
@@ -188,6 +185,8 @@ export default {
       <div class="col">
         <p>Grace period</p>
         <q-input
+          debounce="500"
+          class="my-input-medium"
           id="inpiut"
           type="number"
           rounded
@@ -267,6 +266,8 @@ export default {
         </div>
         <div class="calc-inp-text">
           <q-input
+            debounce="500"
+            class="my-input"
             type="number"
             rounded
             outlined
@@ -275,6 +276,8 @@ export default {
             @change="saveData"
           />
           <q-input
+            debounce="500"
+            class="my-input"
             type="number"
             rounded
             outlined
@@ -299,6 +302,8 @@ export default {
       <div class="flex">
         <p>Recupero spese valutazione debitore</p>
         <q-input
+          debounce="500"
+          class="my-input-medium"
           type="number"
           rounded
           outlined
@@ -348,6 +353,7 @@ export default {
       <div class="flex">
         <p>Costo valutazione debitore</p>
         <q-input
+          class="my-input-medium"
           type="number"
           rounded
           outlined
@@ -366,6 +372,8 @@ export default {
       <div class="flex">
         <p>Costo assicurazione coface</p>
         <q-input
+          debounce="500"
+          class="my-input-medium"
           type="number"
           rounded
           outlined
@@ -382,6 +390,7 @@ export default {
       </div>
       <div class="button-group">
         <q-btn
+          debounce="500"
           @click="reset"
           unelevated
           rounded
@@ -390,6 +399,7 @@ export default {
           label="ripristina"
         />
         <q-btn
+          debounce="500"
           unelevated
           rounded
           color="green"
